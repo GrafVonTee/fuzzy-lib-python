@@ -19,7 +19,7 @@ class HedgeNot(Hedge):
         def not_func(x):
             return 1 - x
 
-        new_term = super().compute(term)
+        new_term = term.copy()
         new_term.name = "Not" + new_term.name
         new_value_range = not_func(new_term.get_value_range())
         new_term.set_value_range(new_value_range)
@@ -33,7 +33,7 @@ class HedgeApprox(Hedge):
         def approx_func(x):
             return x**(1/2)
 
-        new_term = super().compute(term)
+        new_term = term.copy()
         new_term.name = "Approx" + new_term.name
         new_value_range = approx_func(new_term.get_value_range())
         new_term.set_value_range(new_value_range)
@@ -47,7 +47,7 @@ class HedgeVery(Hedge):
         def very_func(x):
             return x**2
 
-        new_term = super().compute(term)
+        new_term = term.copy()
         new_term.name = "Very" + new_term.name
         new_value_range = very_func(new_term.get_value_range())
         new_term.set_value_range(new_value_range)

@@ -100,15 +100,15 @@ class Linear(Term):
         self.end = end
         self._make_range()
 
-    def make_range(self):
+    def _make_range(self):
         temp_begin = self.begin - self.lower_bound
         temp_end = self.end - self.lower_bound
 
         for i, x in np.ndenumerate(self._value_range):
-            if i < temp_begin or i > temp_end:
+            if i[0] < temp_begin or i[0] > temp_end:
                 self._value_range[i] = 0
             else:
-                self._value_range[i] = (i - temp_begin) / (temp_end - temp_begin)
+                self._value_range[i] = (i[0] - temp_begin) / (temp_end - temp_begin)
 
 
 class Triangular(Term):
@@ -126,20 +126,20 @@ class Triangular(Term):
         self.point_end = point_end
         self._make_range()
 
-    def make_range(self):
+    def _make_range(self):
         temp_a = self.point_begin - self.lower_bound
         temp_b = self.point_peek - self.lower_bound
         temp_c = self.point_end - self.lower_bound
 
         for i, x in np.ndenumerate(self._value_range):
-            if i < temp_a or i > temp_c:
+            if i[0] < temp_a or i[0] > temp_c:
                 self._value_range[i] = 0
-            elif i < temp_b:
-                self._value_range[i] = (i - temp_a) / (temp_b - temp_a)
-            elif i == temp_b:
+            elif i[0] < temp_b:
+                self._value_range[i] = (i[0] - temp_a) / (temp_b - temp_a)
+            elif i[0] == temp_b:
                 self._value_range[i] = 1
             else:
-                self._value_range[i] = (temp_c - i) / (temp_c - temp_b)
+                self._value_range[i] = (temp_c - i[0]) / (temp_c - temp_b)
 
 
 class Trapezoid(Term):
@@ -159,21 +159,21 @@ class Trapezoid(Term):
         self.point_d = point_d
         self._make_range()
 
-    def make_range(self):
+    def _make_range(self):
         temp_a = self.point_a - self.lower_bound
         temp_b = self.point_b - self.lower_bound
         temp_c = self.point_c - self.lower_bound
         temp_d = self.point_d - self.lower_bound
 
         for i, x in np.ndenumerate(self._value_range):
-            if i < temp_a or i > temp_d:
+            if i[0] < temp_a or i[0] > temp_d:
                 self._value_range[i] = 0
-            elif i < temp_b:
-                self._value_range[i] = (i - temp_a) / (temp_b - temp_a)
-            elif i <= temp_c:
+            elif i[0] < temp_b:
+                self._value_range[i] = (i[0] - temp_a) / (temp_b - temp_a)
+            elif i[0] <= temp_c:
                 self._value_range[i] = 1
             else:
-                self._value_range[i] = (temp_d - i) / (temp_d - temp_c)
+                self._value_range[i] = (temp_d - i[0]) / (temp_d - temp_c)
 
 
 class SquareRoot(Term):
@@ -194,7 +194,7 @@ class SquareRoot(Term):
         temp_end = self.end - self.lower_bound
 
         for i, x in np.ndenumerate(self._value_range):
-            if i < temp_begin or i > temp_end:
+            if i[0] < temp_begin or i[0] > temp_end:
                 self._value_range[i] = 0
             else:
-                self._value_range[i] = ((i - temp_begin) / (temp_end - temp_begin))**(1/2)
+                self._value_range[i] = ((i[0] - temp_begin) / (temp_end - temp_begin))**(1/2)
